@@ -3,10 +3,7 @@ import pytest
 import sys
 from psycopg2.extensions import connection
 
-sibling_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src', 'utils'))
-sys.path.append(sibling_dir)
-
-from helper import get_db_connection, get_postgres_params
+from src.utils.helper import get_db_connection, get_postgres_params
 
 
 def test_get_db_connection_success():

@@ -4,3 +4,4 @@ playwright
 pinecone[asyncio]
 apache-airflow
 apache-airflow-providers-postgres
+pytest
