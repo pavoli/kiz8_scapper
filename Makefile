@@ -6,10 +6,11 @@ ACTIVATE = source $(VENV_NAME)/bin/activate
 REQ_FILE = requirements.txt
 AIRFLOW_URL = http://localhost:8080
 
-.PHONY: venv activate install af-up af-db-init af-db-upgrade af-create-user af-open-ui start-all down help
+.PHONY: init venv activate install af-up af-db-init af-db-upgrade af-create-user af-open-ui start-all down help
 
 help:
 	@echo "Makefile targets:"
+	@echo "  init            - Создать venv, установить пакеты из requirements.txt, инициализировать базу данных Airflow, создать пользователя `admin`"
 	@echo "  venv            - Создать виртуальное окружение"
 	@echo "  activate        - Активировать виртуальное окружение"
 	@echo "  install         - Создать виртуальное окружение и установить зависимости из requirements.txt"
@@ -71,6 +72,9 @@ af-open-ui:
 		cmd.exe /c start $(AIRFLOW_URL); \
 		exit 0; \
 	fi
+
+init: install af-up af-db-init af-db-upgrade af-create-user
+	@echo "Все шаги установки и настройки Airflow выполнены."
 
 start-all:
 	@echo "Запускаем все сервисы в фоне..."
