@@ -41,7 +41,6 @@ class PineconeClient:
 
         self.logger = setup_logger(level=10)
         self.pc = Pinecone(api_key=self.api_key)
-        self.dense_index = self.pc.Index(self.index_name)
 
     def create_index(self) -> None:
         """
@@ -57,6 +56,7 @@ class PineconeClient:
                     "field_map": {"text": "title"},
                 }
             )
+            self.dense_index = self.pc.Index(self.index_name)
             self.logger.debug(f"Index `{self.index_name}` created.")
         else:
             self.logger.debug(f"Index `{self.index_name}` already exists.")
