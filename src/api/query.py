@@ -48,9 +48,6 @@ def keyword_search(query: str, top_k: int = 10) -> List[Dict[str, float]]:
         LIMIT %s
     """
 
-SELECT * FROM questions
-WHERE language = 'en' AND to_tsvector('english', text) @@ plainto_tsquery('english', 'query');
-
     conn = None
     try:
         conn = get_db_connection()
