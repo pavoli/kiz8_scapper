@@ -167,7 +167,7 @@ def parse_json_postgres_question(file_dir: str) -> List[Tuple]:
                 parsed = {
                     'id': item.get('id'),
                     'title': item.get('title'),
-                    'tags': item.get('keywords'),
+                    # 'tags': item.get('keywords'),
                     'createdAt': item.get('createdAt'),
                 }
                 results.append(tuple(parsed.values()))
