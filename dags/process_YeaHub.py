@@ -40,7 +40,7 @@ with DAG(
     dag_id=DAG_NAME,
     description=DESCRIPTION,
     default_args=ARGS,
-    schedule_interval=None,
+    schedule_interval='0 10 * * 1-5',
     catchup=False,
     max_active_runs=1,
     tags=['YeaHub', 'Pinecone', 'PostgreSQL'],
