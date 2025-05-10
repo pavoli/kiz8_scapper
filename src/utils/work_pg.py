@@ -97,8 +97,7 @@ def insert_many_rows(
         logger.error(f"Error: {e}")
         raise
     finally:
-        if conn is not None:
-            conn.close()
+        conn.close()
 
 if __name__ == '__main__':
     pass

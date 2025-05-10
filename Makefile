@@ -10,7 +10,7 @@ AIRFLOW_URL = http://localhost:8080
 
 help:
 	@echo "Makefile targets:"
-	@echo "  init            - Создать venv, установить пакеты из requirements.txt, инициализировать базу данных Airflow, создать пользователя `admin`"
+	@echo "  init            - Создать venv, установить пакеты из requirements.txt, инициализировать базу данных Airflow, создать пользователя admin"
 	@echo "  venv            - Создать виртуальное окружение"
 	@echo "  activate        - Активировать виртуальное окружение"
 	@echo "  install         - Создать виртуальное окружение и установить зависимости из requirements.txt"
@@ -78,7 +78,7 @@ init: install af-up af-db-init af-db-upgrade af-create-user
 
 start-all:
 	@echo "Запускаем все сервисы в фоне..."
-	docker-compose up -d
+	docker-compose up --build -d
 
 down:
 	@echo "Останавливаем и удаляем контейнеры..."

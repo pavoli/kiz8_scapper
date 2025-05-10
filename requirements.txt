@@ -5,3 +5,5 @@ pinecone[asyncio]
 apache-airflow
 apache-airflow-providers-postgres
 pytest
+fastapi
+uvicorn[standard]

@@ -1,9 +1,9 @@
 import os
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import psycopg2
 from dotenv import load_dotenv
-from psycopg2.extensions import connection
+from psycopg2.extensions import connection as _connection
 
 from src.utils.logger import setup_logger
 
@@ -22,22 +22,32 @@ def get_postgres_params() -> Dict[str, str]:
     }
 
 
-def get_db_connection(db_params) -> Optional[connection]:
+def get_db_connection(db_params: Optional[Dict[str, Any]] = None) -> Optional[_connection]:
     """
-    Connects to PostgreSQL using parameters from .env.
+    Establishes a connection to a PostgreSQL database using provided parameters.
+
+    Args:
+        db_params (Optional[Dict[str, Any]]): Dictionary with connection parameters such as
+            host, port, user, password, dbname. If None, attempts to retrieve parameters
+            via `get_postgres_params()`.
 
     Returns:
-        Optional[connection]: Connection psycopg2 object or None.
+        Optional[psycopg2.extensions.connection]: psycopg2 connection object if successful, else None.
+
+    Notes:
+        - Caller is responsible for closing the connection.
+        - Logs an error if connection fails.
     """
 
     if db_params is None:
         db_params = get_postgres_params()
 
     try:
-        return psycopg2.connect(**db_params)
+        conn = psycopg2.connect(**db_params)
+        logger.debug("Database connection established successfully.")
+        return conn
     except psycopg2.Error as err:
         logger.error(f"Database connection error: {err}")
-        
         return None
 
 

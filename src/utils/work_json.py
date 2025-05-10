@@ -123,7 +123,7 @@ def parse_json_pinecone(file_dir: str) -> List[Dict]:
                 parsed = {
                     '_id': str(item.get('id')),
                     'title': item.get('title'),
-                    'keywords': item.get('keywords'),
+                    'tags': item.get('keywords'),
                     'url': QUESTION_URL.format(item.get('id')),
                 }
                 results.append(parsed)
@@ -167,6 +167,7 @@ def parse_json_postgres_question(file_dir: str) -> List[Tuple]:
                 parsed = {
                     'id': item.get('id'),
                     'title': item.get('title'),
+                    'tags': item.get('keywords'),
                     'createdAt': item.get('createdAt'),
                 }
                 results.append(tuple(parsed.values()))

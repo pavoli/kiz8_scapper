@@ -1,19 +1,16 @@
 services:
-  # web:
-  #   container_name: fastapi_app
-  #   build: .
-  #   ports:
-  #     - 5555:5555
-  #   environment:
-  #     - POSTGRES_HOST=db
-  #     - DOCKER_ENV=1
-  #   volumes:
-  #     - .:/code/
-  #   depends_on:
-  #     - db
-  #   links:
-  #     - db
-  #   restart: always
+  fastapi:
+    container_name: fastapi
+    build: ./src/api
+    ports:
+      - 5555:5555
+    volumes:
+      - .:/code/
+    depends_on:
+      - db
+    links:
+      - db
+    restart: always
 
   redis:
     container_name: redis
