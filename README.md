@@ -46,7 +46,8 @@ make af-open-ui
 Надо включить даг с именем `process_YeaHub` и зайти внутрь процесса нажав на имя дага.
 Даг запустится автоматически
 
-![Airflow](images/af_ui_example.png)
+![Airflow](https://raw.githubusercontent.com/pavoli/kiz8_scapper/master/images/af_ui_example.png)
+
 
 ---
 
