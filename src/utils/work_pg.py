@@ -9,10 +9,6 @@ from src.utils.helper import (
     get_postgres_params,
 )
 from src.utils.logger import setup_logger
-from src.utils.work_json import (
-    parse_json_postgres_question,
-    parse_json_postgres_answer,
-)
 
 logger = setup_logger(level=10)
 
@@ -105,14 +101,4 @@ def insert_many_rows(
             conn.close()
 
 if __name__ == '__main__':
-    # insert_many_rows(
-    #     table_name='questions',
-    #     columns=['id', 'title', 'created_at'],
-    #     rows=parse_json_postgres_question(filename='data/json/page_1.json')
-    # )
-    # insert_many_rows(
-    #     table_name='answers',
-    #     columns=['question_id', 'body_md'],
-    #     rows=parse_json_postgres_answer(filename='data/json/page_1.json')
-    # )
     pass

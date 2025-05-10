@@ -1,11 +1,10 @@
-import logging
 import os
 from typing import Any, Dict, Generator, List, Optional
 
 from dotenv import load_dotenv
 from pinecone import Pinecone
 
-from src.utils.config import JSON_DIR
+# from src.utils.config import JSON_DIR
 from src.utils.logger import setup_logger
 from src.utils.work_json import parse_json_pinecone
 
@@ -86,7 +85,6 @@ class PineconeClient:
 
             for i, batch in enumerate(self.batch_records(records)):
                 self.dense_index.upsert_records(self.namespace, batch)
-                # self.dense_index.upsert(self.namespace, batch)
                 self.logger.debug(f"Upserted batch {i + 1} with {len(batch)} records.")
 
             self.logger.info("All data upserted into Pinecone successfully.")
@@ -102,5 +100,5 @@ def run_pinecone_upsert(file_dir: str) -> None:
 
 
 if __name__ == "__main__":
-    run_pinecone_upsert(JSON_DIR)
-    # pass
+    # run_pinecone_upsert(JSON_DIR)
+    pass

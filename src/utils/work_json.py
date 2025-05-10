@@ -139,7 +139,7 @@ def parse_json_postgres_question(file_dir: str) -> List[Tuple]:
     Parse DATA for table `QUESTIONS`
 
     Args:
-        filename_dir (str): PAth to JSON folder to parse.
+        file_dir (str): PAth to JSON folder to parse.
 
     Returns:
         Any: Python object parsed from the JSON string.
@@ -182,7 +182,7 @@ def parse_json_postgres_answer(file_dir: str) -> List[Tuple]:
     Parse DATA for table `ANSWERS`
 
     Args:
-        filename_dir (str): PAth to JSON folder to parse.
+        file_dir (str): PAth to JSON folder to parse.
 
     Returns:
         Any: Python object parsed from the JSON string.
@@ -219,10 +219,6 @@ def parse_json_postgres_answer(file_dir: str) -> List[Tuple]:
     return results
 
 if __name__ == '__main__':
-    # read_json_file('data/json/response.json')
-    # parse_json_pinecone(filename='data/json/response.json')
-    # parse_json_postgres_question(filename='data/json/response.json')
-    # parse_json_postgres_answer(filename='data/json/response.json')
     # print(get_all_json_files())
     # print(parse_json_postgres_question(JSON_DIR))
     # print(parse_json_postgres_answer(JSON_DIR))
