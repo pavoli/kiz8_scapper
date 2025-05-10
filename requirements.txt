@@ -1,0 +1,6 @@
+python-dotenv
+psycopg2-binary
+playwright
+pinecone[asyncio]
+apache-airflow
+apache-airflow-providers-postgres

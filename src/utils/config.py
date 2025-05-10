@@ -1,0 +1,6 @@
+BASE_URL = "https://yeahub.ru"
+API_URL = "api.yeahub.ru/questions/public-questions"
+START_URL_TEMPLATE = "https://yeahub.ru/questions?page={page}&status=all&specialization=39"
+RAW_DIR = "data/raw"
+JSON_DIR = "data/json"
+QUESTION_URL = "https://yeahub.ru/questions/{0}"

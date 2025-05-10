@@ -1,0 +1,147 @@
+services:
+  # web:
+  #   container_name: fastapi_app
+  #   build: .
+  #   ports:
+  #     - 5555:5555
+  #   environment:
+  #     - POSTGRES_HOST=db
+  #     - DOCKER_ENV=1
+  #   volumes:
+  #     - .:/code/
+  #   depends_on:
+  #     - db
+  #   links:
+  #     - db
+  #   restart: always
+
+  redis:
+    container_name: redis
+    image: redis:7
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 5
+    volumes:
+      - redis_volume:/data
+
+  airflow-webserver:
+    container_name: AF_webserver
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
+      AIRFLOW__WEBSERVER__WORKERS: 2
+      AIRFLOW__CORE__FERNET_KEY: 81HqDtbqAywKSOumSha3BhWNOdQ26slT6K0YaZeZyPs=
+      AIRFLOW_UID: 50000
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PYTHONPATH: $$PYTHONPATH:/opt/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
+      - ./.env:/opt/airflow/.env
+    ports:
+      - "8080:8080"
+    command: webserver
+
+  airflow-scheduler:
+    container_name: AF_scheduler
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
+      AIRFLOW_UID: 50000
+      PYTHONPATH: $$PYTHONPATH:/opt/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
+      - ./.env:/opt/airflow/.env
+    command: scheduler
+
+  airflow-worker:
+    container_name: AF_worker
+    build: .
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+      AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
+      AIRFLOW_UID: 50000
+      PYTHONPATH: $$PYTHONPATH:/opt/airflow
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
+      - ./.env:/opt/airflow/.env
+    command: celery worker
+  db:
+    container_name: pg
+    image: postgres:latest
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pg_volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      retries: 5
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - pgadmin_volume:/var/lib/pgadmin
+    depends_on:
+      - db
+    links:
+      - db
+volumes:
+  redis_volume:
+  pg_volume:
+  pgadmin_volume:
