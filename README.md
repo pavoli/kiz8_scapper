@@ -1,4 +1,3 @@
-```markdown
 # Apache Airflow с Docker Compose
 Этот проект содержит Makefile и конфигурацию для запуска Apache Airflow с помощью Docker Compose.
 ---
