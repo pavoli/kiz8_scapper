@@ -62,6 +62,7 @@ def keyword_search(query: str, top_k: int = 10) -> List[Dict[str, float]]:
         raise
     finally:
         conn.close()
+    logger.debug(f"Keyword search done.")
 
     return [{"id": row["id"], "score": row["rank"], "title": row["title"]} for row in results]
 
@@ -100,9 +101,12 @@ def semantic_search(
                 "rank_fields": ["title"]
             } if rerank else None
         )
+        logger.debug(f"Semantic search done.")
+
         return response.result.hits
     except Exception as e:
         logger.error(f"Semantic search failed: {e}")
+
         return []
 
 
@@ -142,6 +146,7 @@ def combine_results(
     combined = {}
 
     for row in semantic_results:
+        logger.debug(f"semantic_results={row}")
         combined[row["_id"]] = {
             "semantic_score": row["_score"],
             "keyword_score": 0.0,
@@ -150,6 +155,7 @@ def combine_results(
         }
 
     for row in keyword_results:
+        logger.debug(f"keyword_results={row}")
         if row["id"] in combined:
             combined[row["id"]]["keyword_score"] = row["score"]
         else:
@@ -159,10 +165,13 @@ def combine_results(
                 "title": row["title"],
                 "url": QUESTION_URL.format(row["id"]),
             }
-
     final_results = []
 
     for question_id, data in combined.items():
+        logger.debug(f"question_id={question_id}")
+        logger.debug(f"data={data}")
+        logger.debug(f"semantic_score={data["semantic_score"]}  keyword_score{data["keyword_score"]}")
+
         final_score = weight_semantic * data["semantic_score"] + weight_keyword * data["keyword_score"]
         final_results.append({
             "question_id": question_id,
@@ -171,13 +180,14 @@ def combine_results(
             "url": data['url'],
         })
     final_results.sort(key=lambda x: x["score"], reverse=True)
+    logger.debug(f"Combined done.")
     
     return final_results
 
 
 if __name__ == '__main__':
-    semantic_answer = semantic_search("git")
-    print(semantic_answer)
+    # semantic_answer = semantic_search("git")
+    # print(semantic_answer)
     # # print(semantic_answer.result.hits)
 
     # keyword_answer = keyword_search("git")

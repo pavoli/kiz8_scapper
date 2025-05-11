@@ -42,6 +42,11 @@ class PineconeClient:
         self.logger = setup_logger(level=10)
         self.pc = Pinecone(api_key=self.api_key)
 
+        try:
+            self.dense_index = self.pc.Index(self.index_name)
+        except:
+            pass
+
     def create_index(self) -> None:
         """
         Create Pinecone index if it does not exist.

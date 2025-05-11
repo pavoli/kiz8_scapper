@@ -1,12 +1,15 @@
 from fastapi import FastAPI, Query, HTTPException
+from prometheus_fastapi_instrumentator import Instrumentator
 
-from query import (
+from src.api.query import (
     semantic_search,
     keyword_search,
     combine_results,
 )
 
 app = FastAPI()
+
+Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/")

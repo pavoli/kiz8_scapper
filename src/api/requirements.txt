@@ -1,2 +1,5 @@
 fastapi
 uvicorn[standard]
+psycopg2-binary
+pinecone[asyncio]
+prometheus-fastapi-instrumentator
