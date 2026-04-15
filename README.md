@@ -9,11 +9,11 @@
 # 2. 🧑‍💻 Постановка (Problem Statement)
 Соберите «мини-RAG»-сервис по разделу «Специализация 39» сайта Yeahub:
 https://yeahub.ru/questions?status=all&specialization=39
-Спарсить все страницы этого раздела (вопросы + ответы).
-Сгенерировать эмбеддинги (title + body) и записать их в Pinecone.
-Метаданные сохранить в PostgreSQL.
-Написать endpoint /search, который комбинирует семантический (70 %) и keyword-поиск (30 %).
-Всё поднимается одной командой docker compose up --build.
+1) Спарсить все страницы этого раздела (вопросы + ответы)
+2) Сгенерировать эмбеддинги (title + body) и записать их в Pinecone
+3) Метаданные сохранить в PostgreSQL
+4) Написать endpoint /search, который комбинирует семантический (70 %) и keyword-поиск (30 %)
+5) Всё поднимается одной командой docker compose up --build.
 
 # Apache Airflow с Docker Compose
 Этот проект содержит Makefile и конфигурацию для запуска Apache Airflow с помощью Docker Compose.
