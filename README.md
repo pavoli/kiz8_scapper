@@ -1,7 +1,11 @@
 # 1. 📌 Суть задачи (Background)
 Мы строим внутренний AI-поиск по базе юридических и бизнес-вопросов.
 Нужно показать, что вы умеете end-to-end:
-добыть данные, 2) обогатить их эмбеддин¬гами, 3) уложить в реляцион¬ную и вектор¬ную БД, 4) выставить REST-поиск.
+1) добыть данные
+2) обогатить их эмбеддингами
+3) уложить в реляционную и векторную БД
+4) выставить REST-поиск
+
 # 2. 🧑‍💻 Постановка (Problem Statement)
 Соберите «мини-RAG»-сервис по разделу «Специализация 39» сайта Yeahub:
 https://yeahub.ru/questions?status=all&specialization=39
@@ -10,9 +14,6 @@ https://yeahub.ru/questions?status=all&specialization=39
 Метаданные сохранить в PostgreSQL.
 Написать endpoint /search, который комбинирует семантический (70 %) и keyword-поиск (30 %).
 Всё поднимается одной командой docker compose up --build.
-<img width="468" height="247" alt="image" src="https://github.com/user-attachments/assets/0e2591e2-de30-4b0c-9670-d18e7d5e7b3b" />
-
-
 
 # Apache Airflow с Docker Compose
 Этот проект содержит Makefile и конфигурацию для запуска Apache Airflow с помощью Docker Compose.
